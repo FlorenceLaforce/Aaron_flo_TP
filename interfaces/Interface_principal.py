@@ -8,11 +8,13 @@ class App(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Restaurant | Aaroncini")
-        self.geometry("900x600")
+        self.geometry("900x700")
         self.configure(bg="#F2F2F2")
         self.creer_widget()
 
     def creer_widget(self):
+
+        self.resizable(width=False, height=False)
 
         #COULEURS
         COLOR_BG = "#F2F2F2"  # gris clair pro
@@ -22,6 +24,7 @@ class App(tk.Tk):
         COLOR_BROWN = "#4E342E"  # brun chocolat
         COLOR_BUTTON = "#333333"  # gris foncé moderne
         COLOR_BUTTON_HOVER = "#555555"
+        COLOR_BUTTON_HOVER2 = "#8B0000"
 
         #ECRITURE
         FONT_TITLE = ("Segoe UI", 48, "bold")
@@ -81,7 +84,7 @@ class App(tk.Tk):
 
         style.map(
             "Main.TButton",
-            background=[("active", COLOR_BUTTON_HOVER)]
+            background=[("active", COLOR_BUTTON_HOVER2)]
         )
 
         style.configure(
@@ -107,7 +110,7 @@ class App(tk.Tk):
         self.frame_principal = ttk.Frame(self, style="Bg.TFrame")
         self.frame_principal.grid(row=0, column=0, sticky="nsew", padx=20, pady=20)
 
-        self.frame_principal.grid_columnconfigure(0, weight=0)
+        self.frame_principal.grid_columnconfigure(0, weight=1)
         self.frame_principal.grid_columnconfigure(1, weight=1)
         self.frame_principal.grid_rowconfigure(0, weight=1)
         self.frame_principal.grid_rowconfigure(1, weight=1)
@@ -120,15 +123,15 @@ class App(tk.Tk):
         self.frame_top_gauche.grid_rowconfigure(0, weight=0)
         self.frame_top_gauche.grid_rowconfigure(1, weight=0)
         self.frame_top_gauche.grid_rowconfigure(2, weight=0)
-        self.frame_top_gauche.grid_rowconfigure(3, weight=1)
+        self.frame_top_gauche.grid_rowconfigure(3, weight=0)
 
         #gauche en bas
         self.frame_bottom_gauche = ttk.Frame(self.frame_principal, style="Panel.TFrame")
-        self.frame_bottom_gauche.grid(row=1, column=0, sticky="nsew")
+        self.frame_bottom_gauche.grid(row=1, column=0, sticky="nsew", padx=(0,20))
 
         self.frame_bottom_gauche.grid_columnconfigure(0, weight=1)
-        self.frame_bottom_gauche.grid_rowconfigure(0, weight=1)
-        self.frame_bottom_gauche.grid_rowconfigure(1, weight=1)
+        self.frame_bottom_gauche.grid_rowconfigure(0, weight=0)
+        self.frame_bottom_gauche.grid_rowconfigure(1, weight=0)
 
         self.frame_bottom_gauche.grid_propagate(False)
         self.frame_bottom_gauche.config(height=200)
@@ -138,10 +141,12 @@ class App(tk.Tk):
         self.frame_droit.grid(row=0, column=1, sticky="nsew")
 
         self.frame_droit.grid_columnconfigure(0, weight=1)
-        self.frame_droit.grid_rowconfigure(0, weight=0)
-        self.frame_droit.grid_rowconfigure(1, weight=0)
+        self.frame_droit.grid_rowconfigure(0, weight=1)
+        self.frame_droit.grid_rowconfigure(1, weight=1)
         self.frame_droit.grid_rowconfigure(2, weight=1)
         self.frame_droit.grid_rowconfigure(3, weight=1)
+        self.frame_droit.grid_rowconfigure(4, weight=1)
+        #
 
         #LABEL FRAME DROIT
         self.Main_label = ttk.Label(
@@ -156,13 +161,13 @@ class App(tk.Tk):
             text="Ristorante Italiano",
             style="Sub.TLabel"
         )
-        self.mini_label.grid(row=1, column=0, pady=(0, 30))
+        self.mini_label.grid(row=1, column=0, pady=(0, 20))
 
 
         #LABEL FRAME GAUCHE
         self.titre_admin = ttk.Label(
             self.frame_top_gauche,
-            text="ADMIN",
+            text="ADMINISTRATION",
             style="PanelTitle.TLabel"
         )
         self.titre_admin.grid(row=0, column=0, pady=(20, 20))
