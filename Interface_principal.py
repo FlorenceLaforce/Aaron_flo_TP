@@ -41,15 +41,69 @@ class App(tk.Tk):
             "Panel.TFrame",
             background=COLOR_PANEL
         )
+        style.configure(
+            "Main.TLabel",
+            background=COLOR_BG,
+            foreground=COLOR_ACCENT,
+            font=FONT_TITLE
+        )
 
-        style.configure("TLabel", font=FONT_PANEL_TITLE, bg=COLOR_PANEL,fg=COLOR_DARK)
+        style.configure(
+            "Sub.TLabel",
+            background=COLOR_BG,
+            foreground=COLOR_BROWN,
+            font=FONT_SUBTITLE
+        )
+
+        style.configure(
+            "PanelTitle.TLabel",
+            background=COLOR_PANEL,
+            foreground=COLOR_DARK,
+            font=FONT_PANEL_TITLE
+        )
+
+        style.configure(
+            "Text.TLabel",
+            background=COLOR_PANEL,
+            foreground="#555",
+            font=("Segoe UI", 9)
+        )
+
+        # === Boutons TTK custom ===
+        style.configure(
+            "Main.TButton",
+            background=COLOR_BUTTON,
+            foreground="white",
+            font=FONT_BUTTON,
+            relief="flat",
+            padding=10
+        )
+
+        style.map(
+            "Main.TButton",
+            background=[("active", COLOR_BUTTON_HOVER)]
+        )
+
+        style.configure(
+            "Panel.TButton",
+            background=COLOR_BUTTON,
+            foreground="white",
+            font=FONT_BUTTON,
+            relief="flat",
+            padding=10
+        )
+
+        style.map(
+            "Panel.TButton",
+            background=[("active", COLOR_BUTTON_HOVER)]
+        )
 
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
 
         #FRAME
         #principal
-        self.frame_principal = ttk.Frame(self, style="TFrame")
+        self.frame_principal = ttk.Frame(self, style="Bg.Frame")
         self.frame_principal.grid(row=0, column=0, sticky="nsew", padx=20, pady=20)
 
         self.frame_principal.grid_columnconfigure(0, weight=0)
@@ -58,7 +112,7 @@ class App(tk.Tk):
         self.frame_principal.grid_rowconfigure(1, weight=1)
 
         #gauche en haut
-        self.frame_top_gauche = ttk.Frame(self.frame_principal, style="TFrame")
+        self.frame_top_gauche = ttk.Frame(self.frame_principal, style="Panel.Tframe")
         self.frame_top_gauche.grid(row=0, column=0, sticky="nsew",  padx=(0,20))
 
         self.frame_top_gauche.grid_columnconfigure(0, weight=1)
@@ -68,7 +122,7 @@ class App(tk.Tk):
         self.frame_top_gauche.grid_rowconfigure(3, weight=1)
 
         #gauche en bas
-        self.frame_bottom_gauche = tk.Frame(self.frame_principal)
+        self.frame_bottom_gauche = ttk.Frame(self.frame_principal, style="Panel.TFrame")
         self.frame_bottom_gauche.grid(row=1, column=0, sticky="nsew")
 
         self.frame_bottom_gauche.grid_columnconfigure(0, weight=1)
@@ -79,7 +133,7 @@ class App(tk.Tk):
         self.frame_bottom_gauche.config(height=200)
 
         #droite
-        self.frame_droit = ttk.Frame(self.frame_principal,)
+        self.frame_droit = ttk.Frame(self.frame_principal, style="Bg.Frame")
         self.frame_droit.grid(row=0, column=1, sticky="nsew")
 
         self.frame_droit.grid_columnconfigure(0, weight=1)
@@ -111,7 +165,7 @@ class App(tk.Tk):
         self.btn_connexion = tk.Button(self.frame_droit, text = "Connexion", font=("Arial", 22), bg="#F8CECC")
         self.btn_connexion.grid(row=3, column=0, pady=10, padx=150, sticky="")
 
-        self.btn_inscription = tk.Button(self.frame_droit, text = "Inscription", font=("Arial", 22), bg="#DAE8FC", command=self)
+        self.btn_inscription = tk.Button(self.frame_droit, text = "Inscription", font=("Arial", 22), bg="#DAE8FC", command=self.ouvrir_signup)
         self.btn_inscription.grid(row=4, column=0,  pady=10, padx=150, sticky="")
 
         #BUTTON FRAME GAUCHE HAUT
