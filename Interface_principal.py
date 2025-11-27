@@ -103,6 +103,7 @@ class App(tk.Tk):
 
         #FRAME
         #principal
+        temp_global_weight_var = 0
         self.frame_principal = ttk.Frame(self, style="Bg.TFrame")
         self.frame_principal.grid(row=0, column=0, sticky="nsew", padx=20, pady=20)
 
@@ -175,27 +176,27 @@ class App(tk.Tk):
 
 
         #BUTTON FRAME DROIT
-        self.btn_reserver = tk.Button(self.frame_droit, text = "Réserver", font=("Arial", 22), bg="#D5E8D4")
+        self.btn_reserver = ttk.Button(self.frame_droit, text = "Réserver", style = "Main.TButton", width=15)
         self.btn_reserver.grid(row=2, column=0, pady=10, padx=150, sticky="")
 
-        self.btn_connexion = tk.Button(self.frame_droit, text = "Connexion", font=("Arial", 22), bg="#F8CECC")
+        self.btn_connexion = ttk.Button(self.frame_droit, text = "Connexion",  style = "Main.TButton", width=15)
         self.btn_connexion.grid(row=3, column=0, pady=10, padx=150, sticky="")
 
-        self.btn_inscription = tk.Button(self.frame_droit, text = "Inscription", font=("Arial", 22), bg="#DAE8FC", command=self.ouvrir_signup)
+        self.btn_inscription = ttk.Button(self.frame_droit, text = "Inscription",  style = "Main.TButton", width=15, command=self.ouvrir_signup)
         self.btn_inscription.grid(row=4, column=0,  pady=10, padx=150, sticky="")
 
         #BUTTON FRAME GAUCHE HAUT
-        self.btn_gestion = tk.Button(self.frame_top_gauche, text = "Gestion", font=("Arial", 18), height=1, bg="#ffffff")
+        self.btn_gestion = ttk.Button(self.frame_top_gauche, text = "Gestion", style = "Panel.TButton")
         self.btn_gestion.grid(row=1, column=0, pady=10, padx=30, sticky="")
 
-        self.btn_reservations = tk.Button(self.frame_top_gauche, text = "Réservations", font=("Arial",  18), bg="#ffffff")
+        self.btn_reservations = ttk.Button(self.frame_top_gauche, text = "Réservations", style = "Panel.TButton")
         self.btn_reservations.grid(row=2, column=0, pady=10, padx=30, sticky="")
 
         #BUTTON FRAME GAUCHE BAS
-        self.btn_importer = tk.Button(self.frame_bottom_gauche, text="Importer", font=("Arial", 18), bg="#FFE6CC")
+        self.btn_importer = ttk.Button(self.frame_bottom_gauche, text="Importer", style = "Panel.TButton")
         self.btn_importer.grid(row=0, column=0, pady=10, padx=20, sticky="")
 
-        self.btn_exporter = tk.Button(self.frame_bottom_gauche, text="Exporter", font=("Arial",  18), bg="#FFF2CC")
+        self.btn_exporter = ttk.Button(self.frame_bottom_gauche, text="Exporter",  style = "Panel.TButton")
         self.btn_exporter.grid(row=1, column=0, pady=10, padx=20, sticky="")
 
 
