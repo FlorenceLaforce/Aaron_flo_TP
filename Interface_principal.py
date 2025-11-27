@@ -32,7 +32,7 @@ class App(tk.Tk):
         style = ttk.Style()
         style.theme_use("clam")
 
-        style.configure("Bg.Frame",
+        style.configure("Bg.TFrame",
                         background=COLOR_BG,
                         relief= "flat"
         )
@@ -103,7 +103,7 @@ class App(tk.Tk):
 
         #FRAME
         #principal
-        self.frame_principal = ttk.Frame(self, style="Bg.Frame")
+        self.frame_principal = ttk.Frame(self, style="Bg.TFrame")
         self.frame_principal.grid(row=0, column=0, sticky="nsew", padx=20, pady=20)
 
         self.frame_principal.grid_columnconfigure(0, weight=0)
@@ -112,7 +112,7 @@ class App(tk.Tk):
         self.frame_principal.grid_rowconfigure(1, weight=1)
 
         #gauche en haut
-        self.frame_top_gauche = ttk.Frame(self.frame_principal, style="Panel.Tframe")
+        self.frame_top_gauche = ttk.Frame(self.frame_principal, style="Panel.TFrame")
         self.frame_top_gauche.grid(row=0, column=0, sticky="nsew",  padx=(0,20))
 
         self.frame_top_gauche.grid_columnconfigure(0, weight=1)
@@ -133,7 +133,7 @@ class App(tk.Tk):
         self.frame_bottom_gauche.config(height=200)
 
         #droite
-        self.frame_droit = ttk.Frame(self.frame_principal, style="Bg.Frame")
+        self.frame_droit = ttk.Frame(self.frame_principal, style="Bg.TFrame")
         self.frame_droit.grid(row=0, column=1, sticky="nsew")
 
         self.frame_droit.grid_columnconfigure(0, weight=1)
@@ -143,19 +143,35 @@ class App(tk.Tk):
         self.frame_droit.grid_rowconfigure(3, weight=1)
 
         #LABEL FRAME DROIT
-        self.Main_label = tk.Label(self.frame_droit, text="AARONCINI", font=("Serif", 45, "bold"), bg="#ffffff")
-        self.Main_label.grid(row=0, column=0, sticky="nsew",pady=(20,5))
+        self.Main_label = ttk.Label(
+            self.frame_droit,
+            text="AARONCINI",
+            style="Main.TLabel"
+        )
+        self.Main_label.grid(row=0, column=0, pady=(10, 5))
 
-        self.mini_label = tk.Label(self.frame_droit, text="Ristorante Italiano", font=("Serif", 16, "italic"), bg="#ffffff")
-        self.mini_label.grid(row=1, column=0, sticky="nsew", pady=(0,20))
+        self.mini_label = ttk.Label(
+            self.frame_droit,
+            text="Ristorante Italiano",
+            style="Sub.TLabel"
+        )
+        self.mini_label.grid(row=1, column=0, pady=(0, 30))
 
 
         #LABEL FRAME GAUCHE
-        self.titre_gauche = tk.Label(self.frame_top_gauche, text="Administration", font=("Arial", 22, "bold"), bg="#e9e9e9")
-        self.titre_gauche.grid(row=0, column=0, pady=(20, 10))
+        self.titre_admin = ttk.Label(
+            self.frame_top_gauche,
+            text="ADMIN",
+            style="PanelTitle.TLabel"
+        )
+        self.titre_admin.grid(row=0, column=0, pady=(20, 20))
 
-        self.label_legende = tk.Label(self.frame_top_gauche, text="*Apperçu des réservation", font=("Arial", 10), bg="#e9e9e9", fg="#555")
-        self.label_legende.grid(row=3, column=0)
+        self.label_legende = ttk.Label(
+            self.frame_top_gauche,
+            text="* Aperçu des réservations",
+            style="Text.TLabel"
+        )
+        self.label_legende.grid(row=3, column=0, pady=(40, 10))
 
 
         #BUTTON FRAME DROIT
