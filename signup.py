@@ -60,3 +60,7 @@ class SignupWindow(tk.Tk):
         self.chk_lb = ttk.Checkbutton(self.frm, text="Valider", variable=self)
         self.chk_lb.grid(row=5, column=1, sticky="nsew")
 
+
+if __name__ == '__main__':
+    app = SignupWindow()
+    app.mainloop()

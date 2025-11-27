@@ -1,6 +1,5 @@
 import tkinter as tk
-from tkinter import ttk, messagebox
-import sqlite3
+from tkinter import ttk
 
 
 class App(tk.Tk):
@@ -8,121 +7,178 @@ class App(tk.Tk):
         super().__init__()
         self.title("Restaurant | Aaroncini")
         self.geometry("1000x650")
-        self.configure(bg="#F2F2F2")   # gris clair classe
+        self.configure(bg="#F2F2F2")  # Fond racine
+        self.creer_styles()
         self.creer_widget()
 
+    # ======================================================================
+    # ███ STYLE TTK GLOBAL (couleurs, boutons, labels, frames)
+    # ======================================================================
+    def creer_styles(self):
+
+        # Palette
+        self.COLOR_BG = "#F2F2F2"
+        self.COLOR_PANEL = "#E6E6E6"
+        self.COLOR_DARK = "#1C1C1C"
+        self.COLOR_ACCENT = "#8B0000"
+        self.COLOR_BROWN = "#4E342E"
+        self.COLOR_BUTTON = "#333333"
+        self.COLOR_BUTTON_HOVER = "#555555"
+
+        # Fonts
+        self.FONT_TITLE = ("Segoe UI", 48, "bold")
+        self.FONT_SUBTITLE = ("Segoe UI", 18, "italic")
+        self.FONT_PANEL_TITLE = ("Segoe UI", 20, "bold")
+        self.FONT_BUTTON = ("Segoe UI", 18, "bold")
+
+        # Style ttk
+        style = ttk.Style()
+        style.theme_use("clam")
+
+        # === Frame claire ===
+        style.configure(
+            "BG.TFrame",
+            background=self.COLOR_BG
+        )
+
+        # === Panel gris ===
+        style.configure(
+            "Panel.TFrame",
+            background=self.COLOR_PANEL
+        )
+
+        # === Labels généraux ===
+        style.configure(
+            "Main.TLabel",
+            background=self.COLOR_BG,
+            foreground=self.COLOR_ACCENT,
+            font=self.FONT_TITLE
+        )
+
+        style.configure(
+            "Sub.TLabel",
+            background=self.COLOR_BG,
+            foreground=self.COLOR_BROWN,
+            font=self.FONT_SUBTITLE
+        )
+
+        style.configure(
+            "PanelTitle.TLabel",
+            background=self.COLOR_PANEL,
+            foreground=self.COLOR_DARK,
+            font=self.FONT_PANEL_TITLE
+        )
+
+        style.configure(
+            "Text.TLabel",
+            background=self.COLOR_PANEL,
+            foreground="#555",
+            font=("Segoe UI", 9)
+        )
+
+        # === Boutons TTK custom ===
+        style.configure(
+            "Main.TButton",
+            background=self.COLOR_BUTTON,
+            foreground="white",
+            font=self.FONT_BUTTON,
+            relief="flat",
+            padding=10
+        )
+
+        style.map(
+            "Main.TButton",
+            background=[("active", self.COLOR_BUTTON_HOVER)]
+        )
+
+        style.configure(
+            "Panel.TButton",
+            background=self.COLOR_BUTTON,
+            foreground="white",
+            font=self.FONT_BUTTON,
+            relief="flat",
+            padding=10
+        )
+
+        style.map(
+            "Panel.TButton",
+            background=[("active", self.COLOR_BUTTON_HOVER)]
+        )
+
+    # ======================================================================
+    # ███ CREATION DES WIDGETS
+    # ======================================================================
     def creer_widget(self):
 
-        # === PALETTE MODERNE ===
-        COLOR_BG = "#F2F2F2"      # gris clair pro
-        COLOR_PANEL = "#E6E6E6"   # gris doux
-        COLOR_DARK = "#1C1C1C"    # noir/gris anthracite
-        COLOR_ACCENT = "#8B0000"  # rouge foncé élégant
-        COLOR_BROWN = "#4E342E"   # brun chocolat
-        COLOR_BUTTON = "#333333"  # gris foncé moderne
-        COLOR_BUTTON_HOVER = "#555555"
-
-        FONT_TITLE = ("Segoe UI", 48, "bold")
-        FONT_SUBTITLE = ("Segoe UI", 18, "italic")
-        FONT_PANEL_TITLE = ("Segoe UI", 20, "bold")
-        FONT_BUTTON = ("Segoe UI", 18, "bold")
-
-        # === CONFIGURE PRINCIPAL LAYOUT ===
-        self.grid_columnconfigure(0, weight=1)
-        self.grid_rowconfigure(0, weight=1)
-
-        self.frame_principal = tk.Frame(self, bg=COLOR_BG)
+        # ================================================================
+        # FRAMES (tous regroupés)
+        # ================================================================
+        self.frame_principal = ttk.Frame(self, style="BG.TFrame")
         self.frame_principal.grid(row=0, column=0, sticky="nsew", padx=30, pady=30)
 
-        self.frame_principal.grid_columnconfigure(0, weight=0)  # colonne admin petite
-        self.frame_principal.grid_columnconfigure(1, weight=1)  # zone restaurant large
-
-        # =================== ADMIN PANEL GAUCHE ===================
-        self.frame_admin = tk.Frame(self.frame_principal, bg=COLOR_PANEL, bd=0, relief="flat")
+        self.frame_admin = ttk.Frame(self.frame_principal, style="Panel.TFrame")
         self.frame_admin.grid(row=0, column=0, sticky="ns", padx=(0, 30))
 
-        self.frame_admin.grid_columnconfigure(0, weight=1)
+        self.frame_droit = ttk.Frame(self.frame_principal, style="BG.TFrame")
+        self.frame_droit.grid(row=0, column=1, sticky="nsew")
 
-        # Titre admin
-        self.titre_admin = tk.Label(
+        self.frame_export = ttk.Frame(self.frame_admin, style="Panel.TFrame")
+        self.frame_export.grid(row=10, column=0, pady=(40, 10))
+
+        # ================================================================
+        # LABELS (tous regroupés)
+        # ================================================================
+        self.titre_admin = ttk.Label(
             self.frame_admin,
             text="ADMIN",
-            font=FONT_PANEL_TITLE,
-            bg=COLOR_PANEL,
-            fg=COLOR_DARK
+            style="PanelTitle.TLabel"
         )
         self.titre_admin.grid(row=0, column=0, pady=(20, 20))
 
-        # Boutons admin
+        self.Main_label = ttk.Label(
+            self.frame_droit,
+            text="AARONCINI",
+            style="Main.TLabel"
+        )
+        self.Main_label.grid(row=0, column=0, pady=(10, 5))
+
+        self.mini_label = ttk.Label(
+            self.frame_droit,
+            text="Ristorante Italiano",
+            style="Sub.TLabel"
+        )
+        self.mini_label.grid(row=1, column=0, pady=(0, 30))
+
+        self.label_legende = ttk.Label(
+            self.frame_admin,
+            text="* Aperçu des réservations",
+            style="Text.TLabel"
+        )
+        self.label_legende.grid(row=3, column=0, pady=(40, 10))
+
+        # ================================================================
+        # BOUTONS (tous regroupés)
+        # ================================================================
+
         def create_admin_btn(text, row):
-            btn = tk.Button(
+            btn = ttk.Button(
                 self.frame_admin,
                 text=text,
-                bg=COLOR_BUTTON,
-                fg="white",
-                font=FONT_BUTTON,
-                activebackground=COLOR_BUTTON_HOVER,
-                activeforeground="white",
-                relief="flat",
-                padx=10, pady=10,
-                bd=0
+                style="Panel.TButton"
             )
             btn.grid(row=row, column=0, padx=20, pady=10, sticky="ew")
             return btn
 
         self.btn_gestion = create_admin_btn("Gestion", 1)
         self.btn_reservations = create_admin_btn("Réservations", 2)
+        self.btn_importer = create_admin_btn("Importer", 11)
+        self.btn_exporter = create_admin_btn("Exporter", 12)
 
-        # Petite légende
-        self.label_legende = tk.Label(
-            self.frame_admin,
-            text="* Aperçu des réservations",
-            font=("Segoe UI", 9),
-            bg=COLOR_PANEL,
-            fg="#555"
-        )
-        self.label_legende.grid(row=3, column=0, pady=(40, 10))
-
-
-        # =============== ZONE RESTAURANT (DROITE) ==================
-        self.frame_droit = tk.Frame(self.frame_principal, bg=COLOR_BG)
-        self.frame_droit.grid(row=0, column=1, sticky="nsew")
-
-        self.frame_droit.grid_columnconfigure(0, weight=1)
-
-        # TITRE RESTAURANT
-        self.Main_label = tk.Label(
-            self.frame_droit,
-            text="AARONCINI",
-            font=FONT_TITLE,
-            fg=COLOR_ACCENT,
-            bg=COLOR_BG
-        )
-        self.Main_label.grid(row=0, column=0, pady=(10, 5), sticky="n")
-
-        self.mini_label = tk.Label(
-            self.frame_droit,
-            text="Ristorante Italiano",
-            font=FONT_SUBTITLE,
-            fg=COLOR_BROWN,
-            bg=COLOR_BG
-        )
-        self.mini_label.grid(row=1, column=0, pady=(0, 30), sticky="n")
-
-        # BOUTONS PRINCIPAUX
         def create_main_btn(text, row):
-            btn = tk.Button(
+            btn = ttk.Button(
                 self.frame_droit,
                 text=text,
-                font=FONT_BUTTON,
-                bg=COLOR_BUTTON,
-                fg="white",
-                activebackground=COLOR_ACCENT,
-                activeforeground="white",
-                relief="flat",
-                pady=12,
-                padx=20,
-                bd=0
+                style="Main.TButton"
             )
             btn.grid(row=row, column=0, pady=10, ipadx=20)
             return btn
@@ -131,14 +187,9 @@ class App(tk.Tk):
         self.btn_connexion = create_main_btn("Connexion", 3)
         self.btn_inscription = create_main_btn("Inscription", 4)
 
-        # ================= BAS DE PAGE (Importer / Exporter) =================
-        self.frame_export = tk.Frame(self.frame_admin, bg=COLOR_PANEL)
-        self.frame_export.grid(row=10, column=0, pady=(40, 10))
 
-        self.btn_importer = create_admin_btn("Importer", 11)
-        self.btn_exporter = create_admin_btn("Exporter", 12)
-
-
-
+# ======================================================================
+# LANCEMENT
+# ======================================================================
 if __name__ == "__main__":
     App().mainloop()
