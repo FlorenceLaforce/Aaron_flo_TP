@@ -12,6 +12,7 @@ class App(tk.Tk):
         self.geometry("900x700")
         self.configure(bg="#F2F2F2")
         self.creer_widget()
+        self.is_logged_in = False
 
     def creer_widget(self):
 
@@ -182,7 +183,7 @@ class App(tk.Tk):
 
 
         #BUTTON FRAME DROIT
-        self.btn_reserver = ttk.Button(self.frame_droit, text = "Réserver", style = "Main.TButton", width=15, command=self.ouvrir_reserver)
+        self.btn_reserver = ttk.Button(self.frame_droit, text = "Réserver", style = "Main.TButton", width=15, command=self.ouvrir_reserver, state="disabled")
         self.btn_reserver.grid(row=2, column=0, pady=10, padx=150, sticky="")
 
         self.btn_connexion = ttk.Button(self.frame_droit, text = "Connexion",  style = "Main.TButton", width=15, command=self.ouvrir_login)

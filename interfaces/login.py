@@ -20,6 +20,7 @@ class LoginWindow(tk.Toplevel):
         self.geometry("340x290")
         self.resizable(False, False)
         self._configure_style()
+        self.form_is_valid = False
         self.build_ui()
 
     def _configure_style(self):
@@ -85,7 +86,8 @@ class LoginWindow(tk.Toplevel):
             card,
             text="Se connecter",
             style="Primary.TButton",
-            state="disabled"
+            state="disabled",
+            command=self.on_login
         )
         self.login_bt.grid(row=6, column=0, columnspan=2, sticky="ew")
 
@@ -111,6 +113,28 @@ class LoginWindow(tk.Toplevel):
         # Si tout est OK
         self.error_lb.config(text="Validé !", foreground="green")
         self.login_bt.config(state="normal")
+
+        self.form_is_valid = True
+        self.login_bt.config(state="normal")
+
+    def on_login(self):
+        """Appelé quand on clique sur 'Se connecter' après validation."""
+        if not self.form_is_valid:
+            # au cas où quelqu'un clique sans avoir validé
+            self.validate_form()
+            if not self.form_is_valid:
+                return
+
+        # ✅ dire à la fenêtre principale que l'utilisateur est connecté
+        if hasattr(self.master, "is_logged_in"):
+            self.master.is_logged_in = True
+
+        # ✅ activer le bouton 'Réserver' si il existe
+        if hasattr(self.master, "btn_reserver"):
+            self.master.btn_reserver.config(state="normal")
+
+        messagebox.showinfo("Connexion réussie", "Vous êtes maintenant connecté.")
+        self.destroy()
 
 
 if __name__ == "__main__":
