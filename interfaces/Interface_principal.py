@@ -4,6 +4,8 @@ from interfaces.signup import SignupWindow
 from interfaces.login import LoginWindow
 from reservation import ReservationWindow
 
+#TODO mettre ensemble les inscription et les connexions (faire un lien entre les 2)
+# setter les Data Base
 
 class App(tk.Tk):
     def __init__(self):
