@@ -1,8 +1,8 @@
 import tkinter as tk
-from tkinter import ttk, messagebox
-import sqlite3
-from signup import SignupWindow
-from login import LoginWindow
+from tkinter import ttk
+from interfaces.signup import SignupWindow
+from interfaces.login import LoginWindow
+from reservation import ReservationWindow
 
 
 class App(tk.Tk):
@@ -182,7 +182,7 @@ class App(tk.Tk):
 
 
         #BUTTON FRAME DROIT
-        self.btn_reserver = ttk.Button(self.frame_droit, text = "Réserver", style = "Main.TButton", width=15)
+        self.btn_reserver = ttk.Button(self.frame_droit, text = "Réserver", style = "Main.TButton", width=15, command=self.ouvrir_reserver)
         self.btn_reserver.grid(row=2, column=0, pady=10, padx=150, sticky="")
 
         self.btn_connexion = ttk.Button(self.frame_droit, text = "Connexion",  style = "Main.TButton", width=15, command=self.ouvrir_login)
@@ -212,6 +212,9 @@ class App(tk.Tk):
 
     def ouvrir_signup(self):
         SignupWindow(self)
+
+    def ouvrir_reserver(self):
+        ReservationWindow(self)
 
 
 if __name__ == "__main__":

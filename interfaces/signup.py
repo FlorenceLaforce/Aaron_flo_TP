@@ -1,7 +1,6 @@
-import tkinter as tk
 import sqlite3
-from tkinter import ttk, messagebox
-from login import LoginWindow
+from tkinter import messagebox
+from interfaces.login import LoginWindow
 
 #TODO
 #   -finir le build_ui
