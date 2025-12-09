@@ -1,4 +1,5 @@
 import tkinter as tk
+import sqlite3
 from tkinter import ttk, messagebox
 from login import LoginWindow
 
@@ -16,6 +17,8 @@ validation (min. 5 chars). Il doit aussi cocher la boite pour accepter les condi
 import tkinter as tk
 from tkinter import ttk
 
+DB_PATH = "inscription.db"
+
 
 class SignupWindow(tk.Toplevel):
     def __init__(self, parent):
@@ -27,6 +30,44 @@ class SignupWindow(tk.Toplevel):
         self.resizable(False, False)
         self._configure_style()
         self.build_ui()
+
+    def init_db(self):
+        self.conn = sqlite3.connect(DB_PATH)
+        cur = self.conn.cursor()
+        cur.execute("""
+        CREATE TABLE IF NOT EXISTS inscription (
+        id integer PRIMARY KEY AUTOINCREMENT,
+        name text NOT NULL,
+        last_name text NOT NULL,
+        email text NOT NULL,
+        mdp text NOT NULL,
+        )
+        """)
+        self.conn.commit()
+
+    def _insert_inscription(self, name, last_name, email, mdp):
+        self.conn.execute(
+            "INSERT INTO inscription (name, last_name, email, mdp)",
+            (name, last_name, email, mdp)
+        )
+        self.conn.commit()
+
+    def _update_inscription(self,row_id, name, last_name, email, mdp):
+        self.conn.execute(
+            "UPDATE inscription SET name = ?, last_name = ?, email = ?, mdp = ?, WHERE id= ?",
+            (name, last_name, email, mdp, row_id)
+        )
+        self.conn.commit()
+
+    def _delete_inscription(self, row_id):
+        self.conn.execute("DELETE FROM inscription WHERE id= ?", (row_id,))
+        self.conn.commit()
+
+    def _fetch_all_inscriptions(self):
+        cur = self.conn.cursor()
+        cur.execute("SELECT id, name, last_name, email, mdp FROM inscription ORDER BY id")
+        return cur.fetchall()
+
 
     def _configure_style(self):
         style = ttk.Style(self)
