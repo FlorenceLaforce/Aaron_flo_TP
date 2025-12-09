@@ -7,13 +7,116 @@ from tkinter import ttk, messagebox
 #   -pas mal tout dans le fond
 
 
-class LoginWindow(tk.Tk):
-    def __init__(self):
-        super().__init__()
-        self.window = tk.Toplevel(self)
-        self.window.title("Connexion")
+import tkinter as tk
+from tkinter import ttk
+
+
+class LoginWindow(tk.Toplevel):
+    def __init__(self, parent):
+        super().__init__(parent)
+
+        self.title("Connexion")
+        self.configure(bg="#f3f4f6")
+        self.geometry("340x290")
+        self.resizable(False, False)
+        self._configure_style()
         self.build_ui()
 
+    def _configure_style(self):
+        style = ttk.Style(self)
+        style.theme_use("clam")
+
+        style.configure("Card.TFrame", background="white")
+        style.configure("Form.TLabel", background="white", font=("Segoe UI", 10))
+        style.configure("Title.TLabel", background="white", font=("Segoe UI", 14, "bold"))
+        style.configure("Error.TLabel", background="white", foreground="red", font=("Segoe UI", 9))
+        style.configure("Hint.TLabel", background="white", foreground="#6b7280", font=("Segoe UI", 8))
+
+        style.configure("Primary.TButton", font=("Segoe UI", 10, "bold"), padding=(10, 5))
+
     def build_ui(self):
-        pass
+        Frame1 = tk.Frame(self, bg="#f3f4f6")
+        Frame1.pack(expand=True, fill="both", padx=20, pady=20)
+
+        card = ttk.Frame(Frame1, style="Card.TFrame", padding=20)
+        card.pack(expand=True)
+
+        # Titre
+        title_lb = ttk.Label(card, text="Se connecter", style="Title.TLabel")
+        title_lb.grid(row=0, column=0, columnspan=2, pady=(0, 15))
+
+        # Email
+        self.email_lb = ttk.Label(card, text="Email :", style="Form.TLabel")
+        self.email_lb.grid(row=1, column=0, sticky="w", pady=3)
+
+        self.email_en = ttk.Entry(card)
+        self.email_en.grid(row=1, column=1, sticky="ew", pady=3)
+
+        # Mot de passe
+        self.mdp_lb = ttk.Label(card, text="Mot de passe :", style="Form.TLabel")
+        self.mdp_lb.grid(row=2, column=0, sticky="w", pady=3)
+
+        self.mdp_en = ttk.Entry(card, show="*")
+        self.mdp_en.grid(row=2, column=1, sticky="ew", pady=3)
+
+        # Petite ligne d'info sous le mot de passe
+        self.mdp_hint = ttk.Label(
+            card,
+            text="* doit contenir 5 caractères.",
+            style="Hint.TLabel"
+        )
+        self.mdp_hint.grid(row=3, column=0, columnspan=2, sticky="w", pady=(0, 5))
+
+        # Label d’erreur
+        self.error_lb = ttk.Label(card, text="", style="Error.TLabel")
+        self.error_lb.grid(row=4, column=0, columnspan=2, pady=(5, 0))
+
+        # Bouton VALIDER
+        self.validate_bt = ttk.Button(
+            card,
+            text="Valider",
+            style="Primary.TButton",
+            command=self.validate_form
+        )
+        self.validate_bt.grid(row=5, column=0, columnspan=2, sticky="ew", pady=(10, 5))
+
+        # Bouton SE CONNECTER (désactivé au début)
+        self.login_bt = ttk.Button(
+            card,
+            text="Se connecter",
+            style="Primary.TButton",
+            state="disabled"
+        )
+        self.login_bt.grid(row=6, column=0, columnspan=2, sticky="ew")
+
+        card.columnconfigure(1, weight=1)
+
+    def validate_form(self):
+        """Validation : champs non vides + mdp min 5 caractères"""
+        email = self.email_en.get().strip()
+        mdp = self.mdp_en.get()
+
+        self.error_lb.config(text="", foreground="red")
+
+        if not email or not mdp:
+            self.error_lb.config(text="Veuillez remplir tous les champs.")
+            self.login_bt.config(state="disabled")
+            return
+
+        if len(mdp) != 5:
+            self.error_lb.config(text="Le mot de passe doit contenir 5 caractères.")
+            self.login_bt.config(state="disabled")
+            return
+
+        # Si tout est OK
+        self.error_lb.config(text="Validé !", foreground="green")
+        self.login_bt.config(state="normal")
+
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    root.withdraw()
+    win = LoginWindow(root)
+    win.mainloop()
+
 

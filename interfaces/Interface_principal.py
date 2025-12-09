@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 import sqlite3
 from signup import SignupWindow
+from login import LoginWindow
 
 
 class App(tk.Tk):
@@ -184,7 +185,7 @@ class App(tk.Tk):
         self.btn_reserver = ttk.Button(self.frame_droit, text = "Réserver", style = "Main.TButton", width=15)
         self.btn_reserver.grid(row=2, column=0, pady=10, padx=150, sticky="")
 
-        self.btn_connexion = ttk.Button(self.frame_droit, text = "Connexion",  style = "Main.TButton", width=15)
+        self.btn_connexion = ttk.Button(self.frame_droit, text = "Connexion",  style = "Main.TButton", width=15, command=self.ouvrir_login)
         self.btn_connexion.grid(row=3, column=0, pady=10, padx=150, sticky="")
 
         self.btn_inscription = ttk.Button(self.frame_droit, text = "Inscription",  style = "Main.TButton", width=15, command=self.ouvrir_signup)
@@ -206,11 +207,11 @@ class App(tk.Tk):
 
 
     def ouvrir_login(self):
-        pass
+        LoginWindow(self)
 
 
     def ouvrir_signup(self):
-        SignupWindow()
+        SignupWindow(self)
 
 
 if __name__ == "__main__":

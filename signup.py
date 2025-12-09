@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
+from login import LoginWindow
 
 #TODO
 #   -finir le build_ui
@@ -108,7 +109,8 @@ class SignupWindow(tk.Toplevel):
             card,
             text="S'inscrire",
             style="Primary.TButton",
-            state="disabled"
+            state="disabled",
+            command=self.on_signup
         )
         self.signup_bt.grid(row=9, column=0, columnspan=2, sticky="ew")
 
@@ -143,6 +145,11 @@ class SignupWindow(tk.Toplevel):
         # Si tout est OK
         self.error_lb.config(text="Validé !", foreground="green")
         self.signup_bt.config(state="normal")
+
+    def on_signup(self):
+        messagebox.showinfo("Inscription réussie!","Vous pouvez maintenant vous connecter")
+        LoginWindow(self.master)
+        self.destroy()
 
 
 if __name__ == "__main__":

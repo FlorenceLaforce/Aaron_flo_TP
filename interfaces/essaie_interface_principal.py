@@ -2,13 +2,13 @@ import tkinter as tk
 from tkinter import ttk
 
 
-class SignupWindow(tk.Toplevel):
+class LoginWindow(tk.Toplevel):
     def __init__(self, parent):
         super().__init__(parent)
 
-        self.title("Inscription")
+        self.title("Connexion")
         self.configure(bg="#f3f4f6")
-        self.geometry("380x360")
+        self.geometry("340x290")
         self.resizable(False, False)
         self._configure_style()
         self.build_ui()
@@ -33,52 +33,34 @@ class SignupWindow(tk.Toplevel):
         card.pack(expand=True)
 
         # Titre
-        title_lb = ttk.Label(card, text="Créer un compte", style="Title.TLabel")
+        title_lb = ttk.Label(card, text="Se connecter", style="Title.TLabel")
         title_lb.grid(row=0, column=0, columnspan=2, pady=(0, 15))
-
-        # Prénom
-        self.prenom_lb = ttk.Label(card, text="Prénom :", style="Form.TLabel")
-        self.prenom_lb.grid(row=1, column=0, sticky="w", pady=3)
-
-        self.prenom_en = ttk.Entry(card)
-        self.prenom_en.grid(row=1, column=1, sticky="ew", pady=3)
-
-        # Nom
-        self.nom_lb = ttk.Label(card, text="Nom :", style="Form.TLabel")
-        self.nom_lb.grid(row=2, column=0, sticky="w", pady=3)
-
-        self.nom_en = ttk.Entry(card)
-        self.nom_en.grid(row=2, column=1, sticky="ew", pady=3)
 
         # Email
         self.email_lb = ttk.Label(card, text="Email :", style="Form.TLabel")
-        self.email_lb.grid(row=3, column=0, sticky="w", pady=3)
+        self.email_lb.grid(row=1, column=0, sticky="w", pady=3)
 
         self.email_en = ttk.Entry(card)
-        self.email_en.grid(row=3, column=1, sticky="ew", pady=3)
+        self.email_en.grid(row=1, column=1, sticky="ew", pady=3)
 
         # Mot de passe
         self.mdp_lb = ttk.Label(card, text="Mot de passe :", style="Form.TLabel")
-        self.mdp_lb.grid(row=4, column=0, sticky="w", pady=3)
+        self.mdp_lb.grid(row=2, column=0, sticky="w", pady=3)
 
         self.mdp_en = ttk.Entry(card, show="*")
-        self.mdp_en.grid(row=4, column=1, sticky="ew", pady=3)
+        self.mdp_en.grid(row=2, column=1, sticky="ew", pady=3)
 
-        # ➕ Petite ligne d'information
-        self.mdp_hint = ttk.Label(card, text="* doit contenir 5 caractères.",
-                                  style="Hint.TLabel")
-        self.mdp_hint.grid(row=5, column=0, columnspan=2, sticky="w", pady=(0, 5))
-
-        # Confirmer mot de passe
-        self.mdp_check_lb = ttk.Label(card, text="Confirmer :", style="Form.TLabel")
-        self.mdp_check_lb.grid(row=6, column=0, sticky="w", pady=3)
-
-        self.mdp_check_en = ttk.Entry(card, show="*")
-        self.mdp_check_en.grid(row=6, column=1, sticky="ew", pady=3)
+        # Petite ligne d'info sous le mot de passe
+        self.mdp_hint = ttk.Label(
+            card,
+            text="* doit contenir 5 caractères.",
+            style="Hint.TLabel"
+        )
+        self.mdp_hint.grid(row=3, column=0, columnspan=2, sticky="w", pady=(0, 5))
 
         # Label d’erreur
         self.error_lb = ttk.Label(card, text="", style="Error.TLabel")
-        self.error_lb.grid(row=7, column=0, columnspan=2, pady=(5, 0))
+        self.error_lb.grid(row=4, column=0, columnspan=2, pady=(5, 0))
 
         # Bouton VALIDER
         self.validate_bt = ttk.Button(
@@ -87,52 +69,43 @@ class SignupWindow(tk.Toplevel):
             style="Primary.TButton",
             command=self.validate_form
         )
-        self.validate_bt.grid(row=8, column=0, columnspan=2, sticky="ew", pady=(10, 5))
+        self.validate_bt.grid(row=5, column=0, columnspan=2, sticky="ew", pady=(10, 5))
 
-        # Bouton S'INSCRIRE (désactivé au début)
-        self.signup_bt = ttk.Button(
+        # Bouton SE CONNECTER (désactivé au début)
+        self.login_bt = ttk.Button(
             card,
-            text="S'inscrire",
+            text="Se connecter",
             style="Primary.TButton",
             state="disabled"
         )
-        self.signup_bt.grid(row=9, column=0, columnspan=2, sticky="ew")
+        self.login_bt.grid(row=6, column=0, columnspan=2, sticky="ew")
 
         card.columnconfigure(1, weight=1)
 
-
     def validate_form(self):
-        """Validation : mots de passe identiques + champs non vides + longueur min 5"""
-        prenom = self.prenom_en.get().strip()
-        nom = self.nom_en.get().strip()
+        """Validation : champs non vides + mdp min 5 caractères"""
         email = self.email_en.get().strip()
         mdp = self.mdp_en.get()
-        mdp_check = self.mdp_check_en.get()
 
         self.error_lb.config(text="", foreground="red")
 
-        if not prenom or not nom or not email or not mdp or not mdp_check:
+        if not email or not mdp:
             self.error_lb.config(text="Veuillez remplir tous les champs.")
-            self.signup_bt.config(state="disabled")
+            self.login_bt.config(state="disabled")
             return
 
         if len(mdp) != 5:
             self.error_lb.config(text="Le mot de passe doit contenir 5 caractères.")
-            self.signup_bt.config(state="disabled")
-            return
-
-        if mdp != mdp_check:
-            self.error_lb.config(text="Les mots de passe ne correspondent pas.")
-            self.signup_bt.config(state="disabled")
+            self.login_bt.config(state="disabled")
             return
 
         # Si tout est OK
         self.error_lb.config(text="Validé !", foreground="green")
-        self.signup_bt.config(state="normal")
+        self.login_bt.config(state="normal")
 
 
 if __name__ == "__main__":
     root = tk.Tk()
     root.withdraw()
-    win = SignupWindow(root)
+    win = LoginWindow(root)
     win.mainloop()
