@@ -3,6 +3,9 @@ from tkinter import ttk
 from interfaces.signup import SignupWindow
 from interfaces.login import LoginWindow
 from reservation import ReservationWindow
+from Reserv_tree import ReservationTree
+from database import init_db
+init_db()
 
 #TODO mettre ensemble les inscription et les connexions (faire un lien entre les 2)
 # setter les Data Base
@@ -198,7 +201,7 @@ class App(tk.Tk):
         self.btn_gestion = ttk.Button(self.frame_top_gauche, text = "Gestion", style = "Panel.TButton")
         self.btn_gestion.grid(row=1, column=0, pady=10, padx=30, sticky="")
 
-        self.btn_reservations = ttk.Button(self.frame_top_gauche, text = "Réservations", style = "Panel.TButton")
+        self.btn_reservations = ttk.Button(self.frame_top_gauche, text = "Réservations", style = "Panel.TButton", command=self.ouvrir_reservations)
         self.btn_reservations.grid(row=2, column=0, pady=10, padx=30, sticky="")
 
         #BUTTON FRAME GAUCHE BAS
@@ -219,6 +222,11 @@ class App(tk.Tk):
     def ouvrir_reserver(self):
         ReservationWindow(self)
 
+    def ouvrir_gestion(self):
+        pass
+
+    def ouvrir_reservations(self):
+        ReservationTree(self)
 
 if __name__ == "__main__":
     App().mainloop()

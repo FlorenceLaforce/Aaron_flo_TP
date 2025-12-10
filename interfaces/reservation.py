@@ -1,14 +1,16 @@
-
+import sqlite3
 import tkinter as tk
 from tkinter import ttk, messagebox
 from datetime import datetime
+from database import insert_reservation, init_db
+
 
 
 class ReservationWindow(tk.Toplevel):
     def __init__(self, parent):
         super().__init__(parent)
 
-        self.title("Réservation")
+        self.title("Réserver")
         self.configure(bg="#f3f4f6")
         self.geometry("420x480")
         self.resizable(False, False)
@@ -151,14 +153,22 @@ class ReservationWindow(tk.Toplevel):
         """Action quand on clique sur 'Réserver' après validation."""
         prenom = self.prenom_en.get().strip()
         nom = self.nom_en.get().strip()
+        tel = self.tel_en.get().strip()
         date = self.date_en.get().strip()
         heure = self.heure_cb.get().strip()
         nb = self.nb_cb.get().strip()
 
-        # Ici tu pourras plus tard insérer dans ta BD
+        # Sauvegarde dans la base de données
+        try:
+            insert_reservation(prenom, nom, tel, date, heure, int(nb))
+        except Exception as e:
+            messagebox.showerror("Erreur", f"Impossible d’enregistrer la réservation :\n{e}")
+            return
+
         messagebox.showinfo(
             "Réservation confirmée",
             f"Réservation au nom de {prenom} {nom}\n"
+            f"Téléphone : {tel}\n"
             f"Date : {date}\nHeure : {heure}\nPersonnes : {nb}"
         )
 
