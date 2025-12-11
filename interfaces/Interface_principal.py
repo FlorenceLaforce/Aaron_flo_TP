@@ -1,12 +1,12 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, filedialog, messagebox
+import sqlite3
+import json
 from interfaces.signup import SignupWindow
 from interfaces.login import LoginWindow
 from reservation import ReservationWindow
 from Reserv_tree import ReservationTree
-from database import init_db
 from Graphique import GraphWindow
-init_db()
 
 #TODO Ajouter un bouton déconnexion et lorsque nous somme connecter rendre les boutons inscription et connexion disabled
 
@@ -16,8 +16,28 @@ class App(tk.Tk):
         self.title("Restaurant | Aaroncini")
         self.geometry("900x700")
         self.configure(bg="#F2F2F2")
+        self.init_db()
         self.creer_widget()
         self.is_logged_in = False
+
+    def init_db(self):
+        conn = sqlite3.connect("reservation.db")
+        cur = conn.cursor()
+
+        cur.execute("""
+                CREATE TABLE IF NOT EXISTS reservations (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    prenom TEXT NOT NULL,
+                    nom TEXT NOT NULL,
+                    telephone TEXT NOT NULL,
+                    date TEXT NOT NULL,
+                    heure TEXT NOT NULL,
+                    nb_personnes INTEGER NOT NULL
+                )
+            """)
+
+        conn.commit()
+        conn.close()
 
     def creer_widget(self):
 
@@ -205,11 +225,13 @@ class App(tk.Tk):
         self.btn_reservations.grid(row=2, column=0, pady=10, padx=30, sticky="")
 
         #BUTTON FRAME GAUCHE BAS
-        self.btn_importer = ttk.Button(self.frame_bottom_gauche, text="Importer", style = "Panel.TButton")
+        self.btn_importer = ttk.Button(self.frame_bottom_gauche, text="Importer", style = "Panel.TButton", command=self.import_json)
         self.btn_importer.grid(row=0, column=0, pady=10, padx=20, sticky="")
 
-        self.btn_exporter = ttk.Button(self.frame_bottom_gauche, text="Exporter",  style = "Panel.TButton")
+        self.btn_exporter = ttk.Button(self.frame_bottom_gauche, text="Exporter",  style = "Panel.TButton", command=self.export_json)
         self.btn_exporter.grid(row=1, column=0, pady=10, padx=20, sticky="")
+
+        self.btn_signout = ttk.Button(self.frame_bottom_gauche, text="Déconexion", style= "Panel.TButton", command=self.deco)
 
         # Boutons désactivés avant connexion
         self.btn_gestion.config(state="disabled")
@@ -235,6 +257,88 @@ class App(tk.Tk):
 
     def ouvrir_reservations(self):
         GraphWindow(self)
+
+    def export_json(self):
+        try:
+            conn = sqlite3.connect("reservation.db")
+            cur = conn.cursor()
+
+            cur.execute("SELECT nom, prenom, telephone, date, heure, nb_personnes FROM reservations")
+            data = cur.fetchall()
+            conn.close()
+
+            #transformer en dict pour facilititer l'exp.
+            formatted = [
+                {
+                    "nom": row[0],
+                    "prenom": row[1],
+                    "telephone": row[2],
+                    "date": row[3],
+                    "heure": row[4],
+                    "nb_personnes": row[5]
+                }
+                for row in data
+            ]
+
+            filepath = filedialog.asksaveasfilename(
+                defaultextension=".json",
+                filetypes=[("JSON files", "*.json")],
+                title="Exporter les réservations"
+            )
+            if not filepath:
+                return
+            with open(filepath, "w", encoding="utf-8") as f:
+                json.dump(formatted, f, indent=4, ensure_ascii=False)
+            messagebox.showinfo("Exportation", "Exportation réussie.")
+        except Exception as e:
+            messagebox.showerror("Erreur", f"Erreur lors de l'exportation:\n{e}")
+
+    def import_json(self):
+        try:
+            filepath = filedialog.askopenfilename(
+                filetypes=[("JSON files", "*.json")],
+                title="Importer des réservations"
+            )
+
+            if not filepath:
+                return
+
+            with open(filepath, "r", encoding="utf-8") as f:
+                data = json.load(f)
+
+            conn = sqlite3.connect("reservation.db")
+            cur = conn.cursor()
+            cur.execute("DELETE FROM reservations")
+            conn.commit()
+
+            for entry in data:
+                cur.execute("""
+                    INSERT INTO reservations (prenom, nom, telephone, date, heure, nb_personnes)
+                    VALUES (?, ?, ?, ?, ?, ?)
+                """, (
+                    entry["prenom"],
+                    entry["nom"],
+                    entry["telephone"],
+                    entry["date"],
+                    entry["heure"],
+                    entry["nb_personnes"]
+                ))
+
+            conn.commit()
+            conn.close()
+
+            for window in self.winfo_children():
+                if isinstance(window, ReservationTree):
+                    window.write_tree()
+
+            messagebox.showinfo("Importation", "Importation réussie.")
+
+        except Exception as e:
+            messagebox.showerror("Erreur", f"Erreur lors de l'importation:\n{e}")
+
+    def deco(self):
+        pass
+
 
 if __name__ == "__main__":
     App().mainloop()

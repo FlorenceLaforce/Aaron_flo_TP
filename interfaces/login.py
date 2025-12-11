@@ -1,12 +1,6 @@
 import sqlite3
 import tkinter as tk
 from tkinter import ttk, messagebox
-
-#TODO
-#   -créer l'ui
-#   -check les infos de login avec le db
-#   -pas mal tout dans le fond
-
 DB_PATH = "inscription.db"
 
 class LoginWindow(tk.Toplevel):

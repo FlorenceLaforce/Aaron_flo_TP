@@ -1,8 +1,8 @@
-import sqlite3
+
 import tkinter as tk
 from tkinter import ttk, messagebox
 from datetime import datetime
-from database import insert_reservation, init_db
+from database import insert_reservation
 
 
 

@@ -43,11 +43,8 @@ class ReservationTree(tk.Toplevel):
         self.tree.grid(row=0, column=0, sticky="nsew")
 
     def write_tree(self):
-        """Load all reservations from the database into the Treeview."""
-        # Clear the table first
         for item in self.tree.get_children():
             self.tree.delete(item)
-
         try:
             conn = sqlite3.connect("reservation.db")
             cur = conn.cursor()
@@ -59,14 +56,12 @@ class ReservationTree(tk.Toplevel):
             messagebox.showerror("Erreur", f"Impossible de charger les réservations :\n{e}")
             return
 
-        # Insert rows in the right order
         for prenom, nom, telephone, date, heure, nb_personnes in rows:
-            # Treeview order: l_name, f_name, phone, date, hour, nb
+
             self.tree.insert(
                 "", "end",
                 values=(nom, prenom, telephone, date, heure, nb_personnes)
             )
-
 
 
 #if __name__ == "__main__":
