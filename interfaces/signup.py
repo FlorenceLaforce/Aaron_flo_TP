@@ -27,6 +27,7 @@ class SignupWindow(tk.Toplevel):
         self.configure(bg="#f3f4f6")
         self.geometry("380x400")
         self.resizable(False, False)
+        self.init_db()
         self._configure_style()
         self.build_ui()
 
@@ -39,7 +40,7 @@ class SignupWindow(tk.Toplevel):
         name text NOT NULL,
         last_name text NOT NULL,
         email text NOT NULL,
-        mdp text NOT NULL,
+        mdp text NOT NULL
         )
         """)
         self.conn.commit()
@@ -53,7 +54,7 @@ class SignupWindow(tk.Toplevel):
 
     def _update_inscription(self,row_id, name, last_name, email, mdp):
         self.conn.execute(
-            "UPDATE inscription SET name = ?, last_name = ?, email = ?, mdp = ?, WHERE id= ?",
+            "UPDATE inscription SET name = ?, last_name = ?, email = ?, mdp = ? WHERE id= ?",
             (name, last_name, email, mdp, row_id)
         )
         self.conn.commit()
