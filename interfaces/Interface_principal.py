@@ -198,10 +198,10 @@ class App(tk.Tk):
         self.btn_inscription.grid(row=4, column=0,  pady=10, padx=150, sticky="")
 
         #BUTTON FRAME GAUCHE HAUT
-        self.btn_gestion = ttk.Button(self.frame_top_gauche, text = "Gestion", style = "Panel.TButton")
+        self.btn_gestion = ttk.Button(self.frame_top_gauche, text = "Gestion", style = "Panel.TButton",  command=self.ouvrir_gestion())
         self.btn_gestion.grid(row=1, column=0, pady=10, padx=30, sticky="")
 
-        self.btn_reservations = ttk.Button(self.frame_top_gauche, text = "Réservations", style = "Panel.TButton", command=self.ouvrir_reservations)
+        self.btn_reservations = ttk.Button(self.frame_top_gauche, text = "Réservations", style = "Panel.TButton")
         self.btn_reservations.grid(row=2, column=0, pady=10, padx=30, sticky="")
 
         #BUTTON FRAME GAUCHE BAS
@@ -215,7 +215,6 @@ class App(tk.Tk):
     def ouvrir_login(self):
         LoginWindow(self)
 
-
     def ouvrir_signup(self):
         SignupWindow(self)
 
@@ -223,10 +222,10 @@ class App(tk.Tk):
         ReservationWindow(self)
 
     def ouvrir_gestion(self):
-        pass
+        ReservationTree(self)
 
     def ouvrir_reservations(self):
-        ReservationTree(self)
+        pass
 
 if __name__ == "__main__":
     App().mainloop()

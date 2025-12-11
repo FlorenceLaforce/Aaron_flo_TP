@@ -47,7 +47,7 @@ class SignupWindow(tk.Toplevel):
 
     def _insert_inscription(self, name, last_name, email, mdp):
         self.conn.execute(
-            "INSERT INTO inscription (name, last_name, email, mdp)",
+            "INSERT INTO inscription (name, last_name, email, mdp) VALUES (?, ?, ?, ?)",
             (name, last_name, email, mdp)
         )
         self.conn.commit()
@@ -188,6 +188,20 @@ class SignupWindow(tk.Toplevel):
         self.signup_bt.config(state="normal")
 
     def on_signup(self):
+        self.validate_form()
+        if self.signup_bt["state"] == "disabled":
+            return
+
+        prenom = self.prenom_en.get().strip()
+        nom = self.nom_en.get().strip()
+        email = self.email_en.get().strip()
+        mdp = self.mdp_en.get()
+
+        try:
+            self._insert_inscription(prenom, nom, email, mdp)
+        except Exception as e:
+            messagebox.showerror("Erreur", f"Impossible d'enregistrer l'inscription :\n{e}")
+            return
         messagebox.showinfo("Inscription réussie!","Vous pouvez maintenant vous connecter")
         LoginWindow(self.master)
         self.destroy()

@@ -1,3 +1,4 @@
+import sqlite3
 import tkinter as tk
 from tkinter import ttk, messagebox
 
@@ -6,10 +7,7 @@ from tkinter import ttk, messagebox
 #   -check les infos de login avec le db
 #   -pas mal tout dans le fond
 
-
-import tkinter as tk
-from tkinter import ttk
-
+DB_PATH = "inscription.db"
 
 class LoginWindow(tk.Toplevel):
     def __init__(self, parent):
@@ -93,6 +91,22 @@ class LoginWindow(tk.Toplevel):
 
         card.columnconfigure(1, weight=1)
 
+    def check_login(self, email, mdp):
+        try:
+            conn = sqlite3.connect(DB_PATH)
+            cur = conn.cursor()
+            cur.execute(
+                "SELECT id FROM inscription WHERE email = ? AND mdp = ?",
+                (email, mdp)
+            )
+            row = cur.fetchone()
+            conn.close()
+        except Exception as e:
+            messagebox.showerror("Erreur", f"Problème avec la base d'inscriptions :\n{e}")
+            return False
+
+        return row is not None
+
     def validate_form(self):
         """Validation : champs non vides + mdp min 5 caractères"""
         email = self.email_en.get().strip()
@@ -125,11 +139,18 @@ class LoginWindow(tk.Toplevel):
             if not self.form_is_valid:
                 return
 
-        # ✅ dire à la fenêtre principale que l'utilisateur est connecté
+        email = self.email_en.get().strip()
+        mdp = self.mdp_en.get()
+
+        if not self.check_login(email, mdp):
+            self.error_lb.config(text="Email ou mot de passe incorrect.", foreground="red")
+            self.login_bt.config(state="disabled")
+            return
+
         if hasattr(self.master, "is_logged_in"):
             self.master.is_logged_in = True
 
-        # ✅ activer le bouton 'Réserver' si il existe
+
         if hasattr(self.master, "btn_reserver"):
             self.master.btn_reserver.config(state="normal")
 
