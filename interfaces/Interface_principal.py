@@ -5,10 +5,10 @@ from interfaces.login import LoginWindow
 from reservation import ReservationWindow
 from Reserv_tree import ReservationTree
 from database import init_db
+from Graphique import GraphWindow
 init_db()
 
-#TODO mettre ensemble les inscription et les connexions (faire un lien entre les 2)
-# setter les Data Base
+#TODO Ajouter un bouton déconnexion et lorsque nous somme connecter rendre les boutons inscription et connexion disabled
 
 class App(tk.Tk):
     def __init__(self):
@@ -198,10 +198,10 @@ class App(tk.Tk):
         self.btn_inscription.grid(row=4, column=0,  pady=10, padx=150, sticky="")
 
         #BUTTON FRAME GAUCHE HAUT
-        self.btn_gestion = ttk.Button(self.frame_top_gauche, text = "Gestion", style = "Panel.TButton",  command=self.ouvrir_gestion())
+        self.btn_gestion = ttk.Button(self.frame_top_gauche, text = "Gestion", style = "Panel.TButton",  command=self.ouvrir_gestion)
         self.btn_gestion.grid(row=1, column=0, pady=10, padx=30, sticky="")
 
-        self.btn_reservations = ttk.Button(self.frame_top_gauche, text = "Réservations", style = "Panel.TButton")
+        self.btn_reservations = ttk.Button(self.frame_top_gauche, text = "Réservations", style = "Panel.TButton", command= self.ouvrir_reservations)
         self.btn_reservations.grid(row=2, column=0, pady=10, padx=30, sticky="")
 
         #BUTTON FRAME GAUCHE BAS
@@ -211,6 +211,15 @@ class App(tk.Tk):
         self.btn_exporter = ttk.Button(self.frame_bottom_gauche, text="Exporter",  style = "Panel.TButton")
         self.btn_exporter.grid(row=1, column=0, pady=10, padx=20, sticky="")
 
+        # Boutons désactivés avant connexion
+        self.btn_gestion.config(state="disabled")
+        self.btn_reservations.config(state="disabled")
+        self.btn_importer.config(state="disabled")
+        self.btn_exporter.config(state="disabled")
+
+        # Boutons autorisés avant connexion
+        self.btn_connexion.config(state="normal")
+        self.btn_inscription.config(state="normal")
 
     def ouvrir_login(self):
         LoginWindow(self)
@@ -225,7 +234,7 @@ class App(tk.Tk):
         ReservationTree(self)
 
     def ouvrir_reservations(self):
-        pass
+        GraphWindow(self)
 
 if __name__ == "__main__":
     App().mainloop()

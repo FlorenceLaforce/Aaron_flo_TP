@@ -150,9 +150,21 @@ class LoginWindow(tk.Toplevel):
         if hasattr(self.master, "is_logged_in"):
             self.master.is_logged_in = True
 
-
         if hasattr(self.master, "btn_reserver"):
             self.master.btn_reserver.config(state="normal")
+
+        # Activer les boutons dans l'app principale
+        if hasattr(self.master, "btn_gestion"):
+            self.master.btn_gestion.config(state="normal")
+
+        if hasattr(self.master, "btn_reservations"):
+            self.master.btn_reservations.config(state="normal")
+
+        if hasattr(self.master, "btn_import"):
+            self.master.btn_import.config(state="normal")
+
+        if hasattr(self.master, "btn_export"):
+            self.master.btn_export.config(state="normal")
 
         messagebox.showinfo("Connexion réussie", "Vous êtes maintenant connecté.")
         self.destroy()
