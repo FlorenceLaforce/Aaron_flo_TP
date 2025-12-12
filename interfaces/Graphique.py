@@ -3,6 +3,7 @@ from tkinter import ttk
 import sqlite3
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from datetime import datetime
 
 
 class GraphWindow(tk.Toplevel):
@@ -52,6 +53,8 @@ class GraphWindow(tk.Toplevel):
             )
             empty_lb.pack(expand=True)
             return
+
+        data.sort(key=lambda row: datetime.strptime(row[0], "%d/%m/%Y"))
 
         dates = [row[0] for row in data]
         counts = [row[1] for row in data]

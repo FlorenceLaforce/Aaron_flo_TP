@@ -154,11 +154,11 @@ class LoginWindow(tk.Toplevel):
         if hasattr(self.master, "btn_reservations"):
             self.master.btn_reservations.config(state="normal")
 
-        if hasattr(self.master, "btn_import"):
-            self.master.btn_import.config(state="normal")
+        if hasattr(self.master, "btn_importer"):
+            self.master.btn_importer.config(state="normal")
 
-        if hasattr(self.master, "btn_export"):
-            self.master.btn_export.config(state="normal")
+        if hasattr(self.master, "btn_exporter"):
+            self.master.btn_exporter.config(state="normal")
 
         messagebox.showinfo("Connexion réussie", "Vous êtes maintenant connecté.")
         self.destroy()
