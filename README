@@ -20,7 +20,8 @@ fenêtre principale de l'application (page principale, menu, boutons, navigation
 fenêtre de création de réservation (n'inclue pas la création de la data base reservation.db)
 
 - Reserv_tree.py:
-Tableau affichant réservation
+Tableau affichant réservation. Deux boutons y sont affihcées, supprimer une ligne, et vider le tableau au complet. Une
+confirmation est toujours demandée avant.
 
 - Graphique.py:
 fenêtre contenant le graphique des réservation
@@ -46,7 +47,7 @@ FONCTIONNEMENT DU GRAPHIQUE:
 
 - Le graphique montre le nombre de réservation par jour (par date à la quelle il y a des reservation)
 il y a un problème avec la chronologie (je n'es ps réussi a l'arranger)
-pour essayer de la résoudre j,ai utilisé cette ligne:
+pour essayer de la résoudre j'ai utilisé cette ligne:
     data.sort(key=lambda row: datetime.strptime(row[0], "%d/%m/%Y"))
 mais ca ne semble pas fonctionner parfaitement
 
@@ -67,4 +68,8 @@ FONCTION EXPORTER ET IMPORTER:
 -Le bouton importer dans le menu principal vide le contenu du Treeview, et donc de la base de données, actuel et le
 remplace par le fichier .json valide choisi
 -Le bouton exporter sauvegarde les informations actuelles dans la base de données en un nouveau fichier .json.
+
+DÉCONNECTION:
+une messagebox demande une confirmation pour se déconnecter, et quand on confirme, tous les boutons redeviennent
+disabled sauf la connexion et l'inscription, comme à l'ouverture de l'application
 
