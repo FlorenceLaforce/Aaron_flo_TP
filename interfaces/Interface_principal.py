@@ -217,6 +217,9 @@ class App(tk.Tk):
         self.btn_inscription = ttk.Button(self.frame_droit, text = "Inscription",  style = "Main.TButton", width=15, command=self.ouvrir_signup)
         self.btn_inscription.grid(row=4, column=0,  pady=10, padx=150, sticky="")
 
+        self.btn_signout = ttk.Button(self.frame_droit, text="Déconexion", style="Panel.TButton", command=self.deco)
+        self.btn_signout.grid(row=5, column=0, pady=10, padx=150, sticky="")
+
         #BUTTON FRAME GAUCHE HAUT
         self.btn_gestion = ttk.Button(self.frame_top_gauche, text = "Gestion", style = "Panel.TButton",  command=self.ouvrir_gestion)
         self.btn_gestion.grid(row=1, column=0, pady=10, padx=30, sticky="")
@@ -231,13 +234,13 @@ class App(tk.Tk):
         self.btn_exporter = ttk.Button(self.frame_bottom_gauche, text="Exporter",  style = "Panel.TButton", command=self.export_json)
         self.btn_exporter.grid(row=1, column=0, pady=10, padx=20, sticky="")
 
-        self.btn_signout = ttk.Button(self.frame_bottom_gauche, text="Déconexion", style= "Panel.TButton", command=self.deco)
 
         # Boutons désactivés avant connexion
         self.btn_gestion.config(state="disabled")
         self.btn_reservations.config(state="disabled")
         self.btn_importer.config(state="disabled")
         self.btn_exporter.config(state="disabled")
+        self.btn_signout.config(state="disabled")
 
         # Boutons autorisés avant connexion
         self.btn_connexion.config(state="normal")
@@ -337,7 +340,19 @@ class App(tk.Tk):
             messagebox.showerror("Erreur", f"Erreur lors de l'importation:\n{e}")
 
     def deco(self):
-        pass
+        if not messagebox.askokcancel("Quitter", "Voulez vous fermer votre session?"):
+            return
+
+        self.btn_gestion.config(state="disabled")
+        self.btn_reservations.config(state="disabled")
+        self.btn_importer.config(state="disabled")
+        self.btn_exporter.config(state="disabled")
+        self.btn_signout.config(state="disabled")
+
+        self.btn_connexion.config(state="normal")
+        self.btn_inscription.config(state="normal")
+
+        messagebox.showinfo("Déconnection réussie", "Vous êtes maintenant déconnecté")
 
 
 if __name__ == "__main__":

@@ -160,6 +160,9 @@ class LoginWindow(tk.Toplevel):
         if hasattr(self.master, "btn_exporter"):
             self.master.btn_exporter.config(state="normal")
 
+        if hasattr(self.master, "btn_signout"):
+            self.master.btn_signout.config(state="normal")
+
         messagebox.showinfo("Connexion réussie", "Vous êtes maintenant connecté.")
         self.destroy()
 
