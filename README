@@ -1,0 +1,67 @@
+DESCRIPTION SIMPLE DU PROGRAMME:
+
+c'est une application de gestion de réservations de restaurant,
+c'est comme une application qui serait utiliser par les gens qui travaille dans le restaurant'
+(entrer les réservation dans la base de donnée du restaurant)
+
+- elle permet de créer des réservations clients
+- les réservation sont stocker dans une base de données SQLite (reservation.db)
+- on peut afficher les réservations sous forme de tableau (tree.view)
+- on peut afficher les réservations sous forme de graphique (matplotlib)
+- elle permet d'importer et exporter les données en format JSON
+- elle permet de gérer l'accès via un système de connexion/inscription
+
+STRUCTURE GÉNÉRALE DU PROGRAMME:
+
+- Interface_principal.py:
+fenêtre principale de l'application (page principale, menu, boutons, navigations)
+
+- reservation.py:
+fenêtre de création de réservation (n'inclue pas la création de la data base reservation.db)
+
+- Reserv_tree.py:
+Tableau affichant réservation
+
+- Graphique.py:
+fenêtre contenant le graphique des réservation
+
+- login.py:
+fenêtre de connexion
+
+- signup.py:
+fenêtre d'inscription (inclue la création de la data base inscription.db)
+
+- database.py:
+contient data base reservation
+
+GESTION DE LA CONNEXION:
+
+- Si l'utilisateur n'est pas connecter, les boutons gestions, reservation, reserver, importer et exporter
+  sont disabled. Il faut absolument se connecter afin d'avoir accès à la data base.
+
+- Il faut d'abord s'incrire (se créer un compte) et lorsque l'incription est fais,
+  la page de connexion s'ouvre directement
+
+FONCTIONNEMENT DU GRAPHIQUE:
+
+- Le graphique montre le nombre de réservation par jour (par date à la quelle il y a des reservation)
+il y a un problème avec la chronologie (je n'es ps réussi a l'arranger)
+pour essayer de la résoudre j,ai utilisé cette ligne:
+    data.sort(key=lambda row: datetime.strptime(row[0], "%d/%m/%Y"))
+mais ca ne semble pas fonctionner parfaitement
+
+- on récupère les données dans la base de données reservation.db
+SELECT date, COUNT(*)
+FROM reservations
+GROUP BY date
+  on prend toute les lignes ou la date est la même et on les regroupe dans un graphique à bandes
+
+Séparation des fonctiosn dans Graphique.py:
+
+- on à build_ui() qui crée la structure de la fenêtre (frames, label, espaces)
+- on a draw_graph() qui gère les données, les tri et crée le style du graphique
+
+
+FONCTION EXPORTER ET IMPORTER:
+
+
