@@ -348,6 +348,7 @@ class App(tk.Tk):
         self.btn_importer.config(state="disabled")
         self.btn_exporter.config(state="disabled")
         self.btn_signout.config(state="disabled")
+        self.btn_reserver.config(state="disabled")
 
         self.btn_connexion.config(state="normal")
         self.btn_inscription.config(state="normal")
