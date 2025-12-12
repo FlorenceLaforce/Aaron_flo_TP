@@ -64,4 +64,7 @@ Séparation des fonctiosn dans Graphique.py:
 
 FONCTION EXPORTER ET IMPORTER:
 
+-Le bouton importer dans le menu principal vide le contenu du Treeview, et donc de la base de données, actuel et le
+remplace par le fichier .json valide choisi
+-Le bouton exporter sauvegarde les informations actuelles dans la base de données en un nouveau fichier .json.
 
